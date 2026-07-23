@@ -1,0 +1,17 @@
+<%- include('../partials/admin-header', { title: product.name_ar }) %>
+<div class="page-title"><div><h1><%= product.name_ar %></h1><p><%= product.name_en %></p></div><form method="post" action="/admin/products/<%= product.id %>/toggle"><button class="secondary"><%= product.active ? 'إخفاء المنتج' : 'إظهار المنتج' %></button></form></div>
+<section class="card"><h2>خيارات البيع</h2><div class="table-wrap"><table><thead><tr><th>الخيار</th><th>النوع</th><th>التسليم</th><th>السعر</th><th>المتوفر</th><th></th></tr></thead><tbody><% variants.forEach(v => { const available = v.stock_mode === 'SHARED_SLOT' ? v.shared_available : (v.stock_mode === 'ITEM' ? v.item_available : '∞'); %><tr><td><b><%= v.name_ar %></b><small><%= v.name_en %></small></td><td><%= v.sale_mode %><small><%= v.stock_mode %></small></td><td><%= v.delivery_mode %></td><td><%= v.price_iqd ? money(v.price_iqd,'IQD') : '-' %><small><%= v.price_usdt ? money(v.price_usdt,'USDT') : '' %></small></td><td><%= available %></td><td><a href="/admin/variants/<%= v.id %>/inventory">المخزون</a></td></tr><% }) %></tbody></table></div></section>
+
+<form method="post" action="/admin/products/<%= product.id %>/variants" class="card form-grid">
+  <h2 class="full">إضافة خيار جديد للمنتج</h2>
+  <label><span>اسم الخيار بالعربي</span><input name="name_ar" required></label>
+  <label><span>نوع البيع</span><select name="sale_mode"><option value="SHARED_SLOT">مشترك</option><option value="PERSONAL">شخصي</option><option value="FULL_ACCOUNT">حساب كامل</option><option value="CODE">كود</option><option value="FILE">ملف</option><option value="SERVICE">خدمة</option><option value="CUSTOM">مخصص</option></select></label>
+  <label><span>المخزون</span><select name="stock_mode"><option value="SHARED_SLOT">مشترك بعدد خانات</option><option value="ITEM">يباع مرة واحدة</option><option value="MANUAL">يدوي</option><option value="UNLIMITED">غير محدود</option></select></label>
+  <label><span>التسليم</span><select name="delivery_mode"><option value="AUTO">تلقائي</option><option value="WAIT_CODE">انتظار كود</option><option value="MANUAL">يدوي</option></select></label>
+  <label><span>عدد الخانات</span><input type="number" name="shared_capacity" value="5"></label>
+  <label><span>المدة بالأيام</span><input type="number" name="duration_days" value="30"></label>
+  <label><span>سعر IQD</span><input type="number" name="price_iqd"></label>
+  <label><span>سعر USDT</span><input type="number" step="0.01" name="price_usdt"></label>
+  <button class="primary full">إضافة وترجمة</button>
+</form>
+<%- include('../partials/admin-footer') %>

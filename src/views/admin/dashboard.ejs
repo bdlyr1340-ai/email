@@ -1,1 +1,5 @@
-
+<%- include('../partials/admin-header', { title: 'لوحة التحكم' }) %>
+<div class="page-title"><div><h1>لوحة التحكم</h1><p>نظرة سريعة على المتجر والمخزون.</p></div><a class="primary button" href="/admin/products/new">+ إضافة منتج</a></div>
+<section class="stats"><div class="stat"><b><%= stats.products %></b><span>المنتجات</span></div><div class="stat"><b><%= stats.stock %></b><span>المخزون المتوفر</span></div><div class="stat"><b><%= stats.orders %></b><span>كل الطلبات</span></div><div class="stat danger"><b><%= stats.pending %></b><span>تحتاج تدخل</span></div></section>
+<section class="card"><h2>آخر الطلبات</h2><div class="table-wrap"><table><thead><tr><th>الطلب</th><th>الزبون</th><th>المبلغ</th><th>الحالة</th><th></th></tr></thead><tbody><% recent.forEach(order => { %><tr><td>#<%= order.order_number %></td><td><%= order.customer_name %><small><%= order.customer_contact %></small></td><td><%= money(order.total_amount, order.currency) %></td><td><span class="status status-<%= order.status.toLowerCase() %>"><%= order.status %></span></td><td><a href="/admin/orders/<%= order.id %>">فتح</a></td></tr><% }) %></tbody></table></div></section>
+<%- include('../partials/admin-footer') %>

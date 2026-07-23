@@ -1,0 +1,23 @@
+<%- include('../partials/admin-header', { title: 'منتج جديد' }) %>
+<div class="page-title"><div><h1>إضافة منتج</h1><p>اكتب العربي فقط، والترجمة الإنجليزية تنضاف تلقائياً.</p></div></div>
+<% if (error) { %><div class="notice error"><%= error %></div><% } %>
+<form method="post" action="/admin/products" class="card form-grid">
+  <h2>معلومات المنتج</h2>
+  <label><span>اسم المنتج بالعربي</span><input name="name_ar" required placeholder="مثال: اشتراك نتفلكس"></label>
+  <label><span>القسم بالعربي</span><input name="category_ar" value="اشتراكات"></label>
+  <label class="full"><span>الوصف بالعربي</span><textarea name="description_ar" rows="5" placeholder="اكتب تفاصيل واضحة وسيتم ترجمتها تلقائياً"></textarea></label>
+  <label class="full"><span>رابط صورة المنتج</span><input name="image_url" type="url" placeholder="https://..."></label>
+  <label class="check"><input type="checkbox" name="featured"><span>منتج مميز بالواجهة</span></label>
+
+  <h2 class="full">أول خيار بيع</h2>
+  <label><span>اسم الخيار بالعربي</span><input name="variant_name_ar" required placeholder="مشترك - شهر واحد"></label>
+  <label><span>نوع البيع</span><select name="sale_mode"><option value="SHARED_SLOT">مشترك بخانات</option><option value="PERSONAL">شخصي</option><option value="FULL_ACCOUNT">حساب كامل</option><option value="CODE">كود</option><option value="FILE">ملف</option><option value="SERVICE">خدمة</option><option value="CUSTOM">مخصص</option></select></label>
+  <label><span>نظام المخزون</span><select name="stock_mode"><option value="SHARED_SLOT">حساب مشترك بعدد استخدامات</option><option value="ITEM">عنصر يباع مرة واحدة</option><option value="MANUAL">تسليم يدوي</option><option value="UNLIMITED">غير محدود</option></select></label>
+  <label><span>طريقة التسليم</span><select name="delivery_mode"><option value="AUTO">تلقائي</option><option value="WAIT_CODE">يسلم الحساب وينتظر كود مني</option><option value="MANUAL">يدوي بالكامل</option></select></label>
+  <label><span>عدد خانات الحساب المشترك</span><input type="number" name="shared_capacity" value="5" min="1" max="100"></label>
+  <label><span>المدة بالأيام</span><input type="number" name="duration_days" value="30" min="1"></label>
+  <label><span>السعر بالدينار</span><input type="number" name="price_iqd" min="0" step="1"></label>
+  <label><span>السعر بـ USDT</span><input type="number" name="price_usdt" min="0" step="0.01"></label>
+  <button class="primary full" type="submit">إنشاء المنتج وترجمته</button>
+</form>
+<%- include('../partials/admin-footer') %>

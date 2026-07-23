@@ -1,0 +1,4 @@
+<%- include('../partials/admin-header', { title: 'المنتجات' }) %>
+<div class="page-title"><div><h1>المنتجات</h1><p>كل منتج يقدر يحتوي خيارات مشتركة وشخصية وأكواد وخدمات.</p></div><a class="primary button" href="/admin/products/new">+ منتج جديد</a></div>
+<section class="admin-grid"><% products.forEach(product => { %><a class="card admin-product" href="/admin/products/<%= product.id %>"><div><small><%= product.active ? 'ظاهر' : 'مخفي' %></small><h2><%= product.name_ar %></h2><p><%= product.name_en %></p></div><b><%= product.variants %> خيارات</b></a><% }) %></section>
+<%- include('../partials/admin-footer') %>
