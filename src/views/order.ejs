@@ -1,0 +1,29 @@
+<%- include('partials/header', { title: `${locale === 'ar' ? 'طلب' : 'Order'} #${order.order_number}` }) %>
+<section class="order card">
+  <div class="order-head">
+    <div>
+      <small><%= locale === 'ar' ? 'رقم الطلب' : 'Order number' %></small>
+      <h1>#<%= order.order_number %></h1>
+    </div>
+    <span class="status status-<%= order.status.toLowerCase() %>"><%= order.status %></span>
+  </div>
+  <p><%= locale === 'ar' ? 'المبلغ' : 'Amount' %>: <strong><%= money(order.total_amount, order.currency) %></strong></p>
+  <% if (order.status === 'PENDING') { %>
+    <div class="notice"><%= locale === 'ar' ? 'الطلب بانتظار تأكيد الدفع. لا تغلق رابط الطلب.' : 'Waiting for payment confirmation. Keep this order link.' %></div>
+    <% if (order.payment_url) { %><a class="primary button" href="<%= order.payment_url %>"><%= locale === 'ar' ? 'متابعة الدفع' : 'Continue payment' %></a><% } %>
+  <% } %>
+  <% order.items.forEach(item => { %>
+    <article class="delivery">
+      <h2><%= locale === 'ar' ? item.product_name_ar : item.product_name_en %> — <%= locale === 'ar' ? item.variant_name_ar : item.variant_name_en %></h2>
+      <% if (item.delivery) { %>
+        <% Object.entries(item.delivery).forEach(([key, value]) => { if (value !== false && value != null && key !== 'waiting_for_code') { %>
+          <div class="credential"><span><%= key %></span><code><%= typeof value === 'object' ? JSON.stringify(value) : value %></code></div>
+        <% } }) %>
+      <% } %>
+      <% if (item.fulfillment_status === 'WAIT_CODE') { %><div class="notice warning"><%= locale === 'ar' ? 'تم حجز الحساب لك. انتظر كود الدخول من الإدارة، وسيظهر هنا تلقائياً.' : 'Your account is reserved. Wait for the login code; it will appear here.' %></div><% } %>
+      <% if (item.fulfillment_status === 'MANUAL') { %><div class="notice"><%= locale === 'ar' ? 'هذا الطلب يحتاج تسليماً يدوياً من الإدارة.' : 'This order requires manual delivery.' %></div><% } %>
+      <% if (item.access_expires_at) { %><small><%= locale === 'ar' ? 'ينتهي الوصول:' : 'Access expires:' %> <%= new Date(item.access_expires_at).toLocaleString(locale === 'ar' ? 'ar-IQ' : 'en-US') %></small><% } %>
+    </article>
+  <% }) %>
+</section>
+<%- include('partials/footer') %>

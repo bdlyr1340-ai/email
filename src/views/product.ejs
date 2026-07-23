@@ -1,0 +1,81 @@
+<%- include('partials/header', { title: locale === 'ar' ? product.name_ar : product.name_en, turnstileSiteKey }) %>
+<div class="product-page">
+  <section class="product-summary card">
+    <div class="product-image large">
+      <% if (product.image_url) { %><img src="<%= product.image_url %>" alt=""><% } else { %><span>📦</span><% } %>
+    </div>
+    <div>
+      <h1><%= locale === 'ar' ? product.name_ar : product.name_en %></h1>
+      <p class="preline"><%= locale === 'ar' ? product.description_ar : product.description_en %></p>
+    </div>
+  </section>
+
+  <section>
+    <h2><%= locale === 'ar' ? 'اختر نوع المنتج' : 'Choose a product option' %></h2>
+    <div class="variant-list">
+      <% variants.forEach((variant, index) => { const available = variant.stock_mode === 'UNLIMITED' || variant.stock_mode === 'MANUAL' || Number(variant.shared_available) > 0 || Number(variant.item_available) > 0; %>
+        <label class="variant-card <%= !available ? 'disabled' : '' %>">
+          <input type="radio" name="variant_selector" value="<%= variant.id %>" <%= index === 0 && available ? 'checked' : '' %> <%= !available ? 'disabled' : '' %>>
+          <div>
+            <strong><%= locale === 'ar' ? variant.name_ar : variant.name_en %></strong>
+            <span>
+              <%= variant.sale_mode === 'SHARED_SLOT' ? (locale === 'ar' ? 'مشترك' : 'Shared') : (locale === 'ar' ? 'شخصي / مستقل' : 'Personal / independent') %>
+              <% if (variant.duration_days) { %> · <%= variant.duration_days %> <%= locale === 'ar' ? 'يوم' : 'days' %><% } %>
+            </span>
+          </div>
+          <div class="price-stack">
+            <% if (variant.price_iqd) { %><b><%= money(variant.price_iqd, 'IQD') %></b><% } %>
+            <% if (variant.price_usdt) { %><small><%= money(variant.price_usdt, 'USDT') %></small><% } %>
+            <em><%= available ? t.available : t.unavailable %></em>
+          </div>
+        </label>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="checkout card">
+    <h2><%= locale === 'ar' ? 'معلومات الطلب' : 'Order information' %></h2>
+    <form id="checkout-form" method="post">
+      <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="challenge_token" value="<%= challenge.token %>">
+      <input type="hidden" name="browser_tz" id="browser_tz">
+      <label><span><%= locale === 'ar' ? 'الاسم' : 'Name' %></span><input name="customer_name" required minlength="2"></label>
+      <label><span><%= locale === 'ar' ? 'تليجرام أو رقم الهاتف' : 'Telegram or phone number' %></span><input name="customer_contact" required minlength="3" placeholder="@username"></label>
+      <label><span><%= locale === 'ar' ? 'Telegram Chat ID (اختياري للإشعارات)' : 'Telegram Chat ID (optional notifications)' %></span><input name="telegram_id" inputmode="numeric"></label>
+
+      <fieldset>
+        <legend><%= locale === 'ar' ? 'طريقة الدفع' : 'Payment method' %></legend>
+        <% if (paymentOptions.superqi) { %><label class="payment"><input type="radio" name="payment_provider" value="SUPERQI" checked> <span>SuperQi <small>IQD</small></span></label><% } %>
+        <% if (paymentOptions.binance) { %><label class="payment"><input type="radio" name="payment_provider" value="BINANCE" <%= !paymentOptions.superqi ? 'checked' : '' %>> <span>Binance Pay <small>USDT</small></span></label><% } %>
+      </fieldset>
+
+      <div class="captcha-box">
+        <strong><%= locale === 'ar' ? 'تحقق سريع' : 'Quick verification' %></strong>
+        <p><%= challenge.prompt %></p>
+        <% if (challenge.kind === 'math') { %>
+          <input type="number" name="challenge_answer" required>
+        <% } else { %>
+          <div class="colors">
+            <% challenge.options.forEach(color => { %>
+              <label class="color-option"><input type="radio" name="challenge_answer" value="<%= color.key %>" required><span style="background:<%= color.hex %>"></span></label>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+      <% if (turnstileSiteKey) { %><div class="cf-turnstile" data-sitekey="<%= turnstileSiteKey %>"></div><% } %>
+      <button class="primary" type="submit"><%= t.buy %></button>
+    </form>
+  </section>
+</div>
+<script>
+  const variants = document.querySelectorAll('[name="variant_selector"]');
+  const form = document.getElementById('checkout-form');
+  function updateAction() {
+    const selected = document.querySelector('[name="variant_selector"]:checked');
+    if (selected) form.action = '/checkout/' + selected.value + '?lang=<%= locale %>';
+  }
+  variants.forEach(v => v.addEventListener('change', updateAction));
+  updateAction();
+  document.getElementById('browser_tz').value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+</script>
+<%- include('partials/footer') %>

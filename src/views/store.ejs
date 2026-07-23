@@ -1,0 +1,27 @@
+<%- include('partials/header', { title: null }) %>
+<section class="hero">
+  <span class="pill"><%= locale === 'ar' ? 'منتجات رقمية وتسليم ذكي' : 'Digital products with smart delivery' %></span>
+  <h1><%= locale === 'ar' ? 'اختَر منتجك واستلمه بسهولة' : 'Choose your product and receive it easily' %></h1>
+  <p><%= locale === 'ar' ? 'خيارات مشتركة وشخصية، دفع محلي وعالمي، ودعم عربي وإنجليزي.' : 'Shared and personal options, local and global payments, Arabic and English support.' %></p>
+</section>
+
+<section class="product-grid">
+  <% if (!products.length) { %>
+    <div class="empty"><%= locale === 'ar' ? 'لا توجد منتجات بعد. أضف أول منتج من لوحة الإدارة.' : 'No products yet. Add your first product from the admin panel.' %></div>
+  <% } %>
+  <% products.forEach((product) => { %>
+    <a class="product-card" href="/product/<%= product.slug %>?lang=<%= locale %>">
+      <div class="product-image">
+        <% if (product.image_url) { %><img src="<%= product.image_url %>" alt=""><% } else { %><span>📦</span><% } %>
+      </div>
+      <div class="card-body">
+        <small><%= locale === 'ar' ? product.category_name_ar : product.category_name_en %></small>
+        <h2><%= locale === 'ar' ? product.name_ar : product.name_en %></h2>
+        <p><%= (locale === 'ar' ? product.description_ar : product.description_en).slice(0, 100) %></p>
+        <% const prices = product.variants.map(v => v.price_iqd).filter(Boolean); %>
+        <% if (prices.length) { %><strong><%= locale === 'ar' ? 'ابتداءً من' : 'From' %> <%= money(Math.min(...prices), 'IQD') %></strong><% } %>
+      </div>
+    </a>
+  <% }) %>
+</section>
+<%- include('partials/footer') %>
