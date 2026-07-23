@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="<%= locale %>" dir="<%= rtl ? 'rtl' : 'ltr' %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111827">
+  <title><%= title ? `${title} — ${appName}` : appName %></title>
+  <link rel="stylesheet" href="/static/app.css">
+  <% if (typeof turnstileSiteKey !== 'undefined' && turnstileSiteKey) { %>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <% } %>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="/?lang=<%= locale %>">🛍 <%= appName %></a>
+  <nav>
+    <a href="/?lang=<%= locale %>"><%= t.home %></a>
+    <a href="<%= locale === 'ar' ? '?lang=en' : '?lang=ar' %>" class="language"><%= locale === 'ar' ? 'English' : 'العربية' %></a>
+  </nav>
+</header>
+<main class="container">
