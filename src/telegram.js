@@ -10,6 +10,7 @@ export async function sendTelegram(chatId, text, extra = {}) {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML', ...extra }),
+    signal: AbortSignal.timeout(10_000),
   });
   if (!response.ok) throw new Error(`Telegram error: ${await response.text()}`);
 }
@@ -31,9 +32,16 @@ export async function configureTelegramWebhook() {
       url: `${process.env.APP_URL.replace(/\/$/, '')}/webhooks/telegram`,
       secret_token: process.env.TELEGRAM_WEBHOOK_SECRET,
       allowed_updates: ['message'],
+      drop_pending_updates: false,
     }),
+    signal: AbortSignal.timeout(10_000),
   });
-  if (!response.ok) console.error('Telegram webhook setup failed:', await response.text());
+  const body = await response.text();
+  if (!response.ok) {
+    console.error('Telegram webhook setup failed:', body);
+  } else {
+    console.log('Telegram webhook configured');
+  }
 }
 
 export async function handleTelegramUpdate(update) {

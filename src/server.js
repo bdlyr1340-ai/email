@@ -200,10 +200,24 @@ app.post('/webhooks/binance', async (req, res) => {
   }
 });
 
-app.post('/webhooks/telegram', async (req, res) => {
-  if (process.env.TELEGRAM_WEBHOOK_SECRET && req.get('X-Telegram-Bot-Api-Secret-Token') !== process.env.TELEGRAM_WEBHOOK_SECRET) return res.sendStatus(401);
-  await handleTelegramUpdate(req.body).catch(console.error);
-  res.json({ ok: true });
+app.post('/webhooks/telegram', (req, res) => {
+  if (
+    process.env.TELEGRAM_WEBHOOK_SECRET
+    && req.get('X-Telegram-Bot-Api-Secret-Token') !== process.env.TELEGRAM_WEBHOOK_SECRET
+  ) {
+    return res.sendStatus(401);
+  }
+
+  // Telegram needs a fast 200 response. Process the update after acknowledging it
+  // so a slow outbound Telegram API call cannot cause a 502/timeout.
+  const update = req.body;
+  res.status(200).json({ ok: true });
+
+  setImmediate(() => {
+    handleTelegramUpdate(update).catch((error) => {
+      console.error('Telegram update failed:', error);
+    });
+  });
 });
 
 // ---------- Admin ----------
