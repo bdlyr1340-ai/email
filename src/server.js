@@ -19,7 +19,7 @@ import { createOrder, markOrderPaid, getPublicOrder, getAdminOrder, completeManu
 import { createPayment } from './payments/index.js';
 import { parseBinanceWebhook, verifyBinanceWebhook } from './payments/binance.js';
 import { verifySuperQiWebhook } from './payments/superqi.js';
-import { configureTelegramWebhook, handleTelegramUpdate, notifyAdmin } from './telegram.js';
+import { startTelegramPolling, handleTelegramUpdate, notifyAdmin } from './telegram.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -367,5 +367,5 @@ app.use((error, req, res, _next) => {
 await migrate();
 app.listen(process.env.PORT || 3000, async () => {
   console.log(`${config.appName} listening on port ${process.env.PORT || 3000}`);
-  await configureTelegramWebhook().catch(console.error);
+  startTelegramPolling().catch((error) => console.error('Telegram polling failed:', error));
 });
