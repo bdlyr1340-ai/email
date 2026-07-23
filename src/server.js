@@ -365,7 +365,19 @@ app.use((error, req, res, _next) => {
 });
 
 await migrate();
-app.listen(process.env.PORT || 3000, async () => {
-  console.log(`${config.appName} listening on port ${process.env.PORT || 3000}`);
-  startTelegramPolling().catch((error) => console.error('Telegram polling failed:', error));
+
+const port = Number.parseInt(process.env.PORT || '3000', 10);
+const host = '0.0.0.0';
+
+const server = app.listen(port, host, () => {
+  console.log(`${config.appName} listening on http://${host}:${port}`);
+
+  // Start Telegram after the HTTP server is already reachable by Railway.
+  setTimeout(() => {
+    startTelegramPolling().catch((error) => console.error('Telegram polling failed:', error));
+  }, 1000);
 });
+
+// Keep Railway proxy connections predictable.
+server.keepAliveTimeout = 65_000;
+server.headersTimeout = 66_000;
