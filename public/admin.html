@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>CD Store — لوحة الإدارة</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body data-page="admin">
+  <div class="admin-layout">
+    <aside class="sidebar">
+      <a class="brand admin-brand" href="index.html">
+        <span class="brand-mark">CD</span>
+        <span><strong>CD Store</strong><small>لوحة الإدارة</small></span>
+      </a>
+      <nav class="side-nav">
+        <button class="active" data-view="dashboard"><span>▦</span> الرئيسية</button>
+        <button data-view="products"><span>◫</span> المنتجات</button>
+        <button data-view="inventory"><span>◉</span> المخزون</button>
+        <button data-view="orders"><span>◎</span> الطلبات</button>
+        <button data-view="customers"><span>♙</span> الزبائن</button>
+        <button data-view="settings"><span>⚙</span> الإعدادات</button>
+      </nav>
+      <div class="side-footer">
+        <a href="index.html" class="ghost-btn full">فتح المتجر</a>
+      </div>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div>
+          <button class="mobile-menu" id="mobileMenu">☰</button>
+          <span class="eyebrow">نظرة عامة</span>
+          <h1 id="pageTitle">لوحة التحكم</h1>
+        </div>
+        <div class="admin-actions">
+          <button class="icon-btn">◔</button>
+          <button class="admin-user"><span>م</span><b>المدير</b></button>
+        </div>
+      </header>
+
+      <section class="admin-view active" id="view-dashboard">
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-icon purple">↗</span>
+            <div><small>مبيعات اليوم</small><strong>184,000 د.ع</strong><em>+18%</em></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon blue">◎</span>
+            <div><small>الطلبات</small><strong id="ordersCount">24</strong><em>اليوم</em></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon green">◉</span>
+            <div><small>المخزون المتوفر</small><strong id="stockCount">0</strong><em>حساب/كود</em></div>
+          </article>
+          <article class="stat-card">
+            <span class="stat-icon orange">♙</span>
+            <div><small>الزبائن</small><strong>1,248</strong><em>+32 جديد</em></div>
+          </article>
+        </div>
+
+        <div class="admin-grid">
+          <section class="admin-panel">
+            <div class="panel-heading">
+              <div><span class="eyebrow">المبيعات</span><h2>الأداء هذا الأسبوع</h2></div>
+              <button class="filter-btn">آخر 7 أيام</button>
+            </div>
+            <div class="chart" aria-label="مخطط تجريبي">
+              <div style="height:32%"></div><div style="height:48%"></div><div style="height:38%"></div>
+              <div style="height:71%"></div><div style="height:62%"></div><div style="height:84%"></div><div style="height:76%"></div>
+            </div>
+            <div class="chart-labels"><span>سبت</span><span>أحد</span><span>اثنين</span><span>ثلاثاء</span><span>أربعاء</span><span>خميس</span><span>جمعة</span></div>
+          </section>
+
+          <section class="admin-panel quick-panel">
+            <div class="panel-heading">
+              <div><span class="eyebrow">اختصارات</span><h2>إدارة سريعة</h2></div>
+            </div>
+            <div class="quick-actions">
+              <button id="quickAddProduct"><span>＋</span><b>إضافة منتج</b><small>منتج وخياراته</small></button>
+              <button><span>⇩</span><b>رفع مخزون</b><small>CSV / TXT</small></button>
+              <button><span>⌁</span><b>إرسال إشعار</b><small>لجميع الزبائن</small></button>
+              <button><span>٪</span><b>كوبون خصم</b><small>عرض جديد</small></button>
+            </div>
+          </section>
+        </div>
+
+        <section class="admin-panel">
+          <div class="panel-heading">
+            <div><span class="eyebrow">آخر النشاطات</span><h2>الطلبات الأخيرة</h2></div>
+            <button class="ghost-btn small">عرض الكل</button>
+          </div>
+          <div class="orders-table">
+            <div class="table-row table-head"><span>الطلب</span><span>الزبون</span><span>المنتج</span><span>الحالة</span><span>المبلغ</span></div>
+            <div class="table-row"><b>#1048</b><span>أحمد علي</span><span>Netflix — مشترك</span><span class="status success">مكتمل</span><strong>8,000 د.ع</strong></div>
+            <div class="table-row"><b>#1047</b><span>سارة محمد</span><span>Canva Pro</span><span class="status pending">بانتظار كود</span><strong>12,000 د.ع</strong></div>
+            <div class="table-row"><b>#1046</b><span>حسن كريم</span><span>Game Pass</span><span class="status success">مكتمل</span><strong>18,000 د.ع</strong></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="admin-view" id="view-products">
+        <div class="content-toolbar">
+          <div>
+            <span class="eyebrow">الكتالوج</span>
+            <h2>إدارة المنتجات</h2>
+          </div>
+          <button class="primary-btn" id="addProductBtn">＋ إضافة منتج</button>
+        </div>
+        <div class="admin-search">
+          <input id="adminSearch" type="search" placeholder="ابحث بالاسم أو القسم..." />
+          <select id="adminCategoryFilter"><option value="all">كل الأقسام</option></select>
+        </div>
+        <div id="adminProducts" class="admin-products"></div>
+      </section>
+
+      <section class="admin-view placeholder-view" id="view-inventory">
+        <div class="placeholder-card"><span>◉</span><h2>إدارة المخزون الذكي</h2><p>رفع حسابات، أكواد، 2FA، خانات مشتركة، وانتظار كود.</p><button class="primary-btn">رفع ملف مخزون</button></div>
+      </section>
+      <section class="admin-view placeholder-view" id="view-orders">
+        <div class="placeholder-card"><span>◎</span><h2>الطلبات</h2><p>متابعة الدفع، التسليم، الاستبدال والضمان.</p></div>
+      </section>
+      <section class="admin-view placeholder-view" id="view-customers">
+        <div class="placeholder-card"><span>♙</span><h2>الزبائن</h2><p>سجل المشتريات، الرصيد، الحظر والثقة.</p></div>
+      </section>
+      <section class="admin-view placeholder-view" id="view-settings">
+        <div class="placeholder-card"><span>⚙</span><h2>إعدادات المتجر</h2><p>اللغات، الدفع، البوت، الحماية والمظهر.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="productModalBackdrop"></div>
+  <div class="modal hidden" id="productModal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <div><span class="eyebrow">منتج جديد</span><h2 id="modalTitle">إضافة منتج</h2></div>
+      <button class="drawer-close" id="closeProductModal">×</button>
+    </div>
+    <form id="productForm">
+      <input type="hidden" id="productId" />
+      <div class="form-grid">
+        <label class="field">
+          <span>اسم المنتج بالعربي</span>
+          <input id="nameAr" required placeholder="مثال: اشتراك نتفلكس" />
+        </label>
+        <label class="field">
+          <span>الاسم بالإنجليزي</span>
+          <div class="inline-field">
+            <input id="nameEn" placeholder="يُترجم تلقائياً" />
+            <button type="button" class="translate-btn" id="translateBtn">ترجمة ذكية ✦</button>
+          </div>
+        </label>
+        <label class="field">
+          <span>القسم</span>
+          <select id="category" required>
+            <option value="اشتراكات">اشتراكات</option>
+            <option value="ألعاب">ألعاب</option>
+            <option value="حسابات">حسابات</option>
+            <option value="أكواد">أكواد</option>
+            <option value="خدمات">خدمات</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>أقل سعر (د.ع)</span>
+          <input id="basePrice" type="number" required min="0" value="5000" />
+        </label>
+        <label class="field full-span">
+          <span>الوصف بالعربي</span>
+          <textarea id="descriptionAr" rows="3" placeholder="وصف مختصر وواضح للزبون"></textarea>
+        </label>
+        <label class="field full-span">
+          <span>الوصف بالإنجليزي</span>
+          <textarea id="descriptionEn" rows="3" placeholder="يُملأ تلقائياً بعد الترجمة"></textarea>
+        </label>
+      </div>
+
+      <div class="builder-card">
+        <div class="builder-head">
+          <div><b>خيارات المنتج</b><small>الزبون يشوف خيارات بسيطة، وأنت تتحكم بالتفاصيل هنا.</small></div>
+          <button type="button" class="ghost-btn small" id="addVariant">＋ خيار</button>
+        </div>
+        <div id="variantsBuilder"></div>
+      </div>
+
+      <div class="form-grid compact-grid">
+        <label class="field">
+          <span>طريقة التسليم</span>
+          <select id="delivery">
+            <option value="فوري">فوري</option>
+            <option value="يدوي">يدوي</option>
+            <option value="بانتظار كود">بانتظار كود</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>الضمان</span>
+          <select id="warranty">
+            <option>بدون ضمان</option>
+            <option selected>7 أيام</option>
+            <option>30 يوم</option>
+            <option>طوال الاشتراك</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>المخزون</span>
+          <input id="stock" type="number" min="0" value="10" />
+        </label>
+        <label class="toggle-field">
+          <span><b>نشر المنتج</b><small>يظهر بالمتجر فوراً</small></span>
+          <input id="published" type="checkbox" checked />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="ghost-btn" id="cancelProduct">إلغاء</button>
+        <button type="submit" class="primary-btn">حفظ المنتج</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/admin.js"></script>
+</body>
+</html>

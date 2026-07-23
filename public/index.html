@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>CD Store — متجر رقمي</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body data-page="store">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="topbar">
+    <a class="brand" href="index.html" aria-label="CD Store">
+      <span class="brand-mark">CD</span>
+      <span>
+        <strong>CD Store</strong>
+        <small data-i18n="brandSub">متجرك الرقمي</small>
+      </span>
+    </a>
+    <div class="top-actions">
+      <button class="icon-btn" id="searchToggle" aria-label="بحث">⌕</button>
+      <button class="lang-btn" id="langToggle">EN</button>
+    </div>
+  </header>
+
+  <main class="store-shell">
+    <section class="hero panel">
+      <div class="hero-copy">
+        <span class="eyebrow" data-i18n="eyebrow">تسليم رقمي سريع وآمن</span>
+        <h1 data-i18n="heroTitle">كل اشتراكاتك ومنتجاتك الرقمية بمكان واحد</h1>
+        <p data-i18n="heroText">اختار المنتج، حدّد النوع والمدة، ادفع واستلم بدون تعقيد.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" data-scroll-products data-i18n="browse">تصفح المنتجات</button>
+          <a class="ghost-btn" href="admin.html" data-i18n="adminDemo">تجربة لوحة الإدارة</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="orb-card card-1">
+          <span>NET</span>
+          <b>شخصي</b>
+        </div>
+        <div class="orb-card card-2">
+          <span>GAME</span>
+          <b>كود فوري</b>
+        </div>
+        <div class="orb-card card-3">
+          <span>AI</span>
+          <b>اشتراك</b>
+        </div>
+        <div class="glow-ring"></div>
+      </div>
+    </section>
+
+    <section class="trust-strip">
+      <div><span>⚡</span><b data-i18n="fast">تسليم سريع</b></div>
+      <div><span>🔒</span><b data-i18n="secure">بيانات مشفّرة</b></div>
+      <div><span>💬</span><b data-i18n="support">دعم مباشر</b></div>
+    </section>
+
+    <section class="section-head">
+      <div>
+        <span class="eyebrow" data-i18n="categories">الأقسام</span>
+        <h2 data-i18n="chooseCategory">اختار القسم المناسب</h2>
+      </div>
+    </section>
+    <div id="categoryChips" class="category-row"></div>
+
+    <section class="section-head products-head" id="productsSection">
+      <div>
+        <span class="eyebrow" data-i18n="products">المنتجات</span>
+        <h2 data-i18n="featured">الأكثر طلباً</h2>
+      </div>
+      <button class="filter-btn" id="filterBtn" data-i18n="filter">فلترة</button>
+    </section>
+
+    <div id="searchBox" class="search-box hidden">
+      <input id="searchInput" type="search" placeholder="ابحث عن منتج..." />
+    </div>
+
+    <section id="productsGrid" class="products-grid"></section>
+
+    <section class="empty-state hidden" id="emptyState">
+      <div class="empty-icon">◌</div>
+      <h3 data-i18n="noProducts">ماكو منتجات بهذا القسم</h3>
+      <p data-i18n="tryAnother">جرّب قسم ثاني أو امسح البحث.</p>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="active">⌂<span data-i18n="home">الرئيسية</span></button>
+    <button data-scroll-products>▦<span data-i18n="products">المنتجات</span></button>
+    <button>♡<span data-i18n="favorites">المفضلة</span></button>
+    <button>◎<span data-i18n="orders">طلباتي</span></button>
+  </nav>
+
+  <div class="drawer-backdrop hidden" id="productDrawerBackdrop"></div>
+  <aside class="product-drawer" id="productDrawer" aria-hidden="true">
+    <button class="drawer-close" id="drawerClose">×</button>
+    <div class="drawer-media" id="drawerMedia"></div>
+    <div class="drawer-body">
+      <div class="drawer-title-row">
+        <div>
+          <span id="drawerBadge" class="product-badge"></span>
+          <h2 id="drawerTitle"></h2>
+        </div>
+        <button class="favorite-btn">♡</button>
+      </div>
+      <p id="drawerDescription" class="drawer-description"></p>
+
+      <div class="option-block">
+        <label data-i18n="accountType">نوع الاشتراك</label>
+        <div id="variantOptions" class="segmented"></div>
+      </div>
+
+      <div class="option-block">
+        <label data-i18n="duration">المدة</label>
+        <div id="durationOptions" class="segmented compact"></div>
+      </div>
+
+      <div class="summary-card">
+        <div><span data-i18n="delivery">التسليم</span><b id="deliveryText">فوري</b></div>
+        <div><span data-i18n="warranty">الضمان</span><b id="warrantyText">7 أيام</b></div>
+      </div>
+
+      <div class="drawer-footer">
+        <div class="price-wrap">
+          <small data-i18n="total">المجموع</small>
+          <strong id="drawerPrice">0 د.ع</strong>
+        </div>
+        <button class="primary-btn buy-btn" id="buyBtn" data-i18n="buyNow">شراء الآن</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast"></div>
+  <script src="assets/store.js"></script>
+</body>
+</html>
